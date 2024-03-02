@@ -31,13 +31,12 @@ jobs:
       - name: Build
         env:
           NODE_OPTIONS: '--max_old_space_size=4096'
+          VITE_TMDB_READ_API_KEY: ${{ secrets.TMDB_READ_API_KEY }}
+          VITE_CORS_PROXY_URL: ${{ secrets.CORS_PROXY_URL }}
         run: pnpm run build:pwa
 
       - name: Publish to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
-        env:
-          VITE_TMDB_READ_API_KEY: ${{ secrets.TMDB_READ_API_KEY }}
-          VITE_CORS_PROXY_URL: ${{ secrets.CORS_PROXY_URL }}
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
